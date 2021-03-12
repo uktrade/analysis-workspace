@@ -11,7 +11,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import FormView
 
-from dataworkspace.apps.core.forms import SupportForm
+from dataworkspace.apps.core.forms import SupportForm, UserSatisfactionSurveyForm
+from dataworkspace.apps.core.models import UserSatisfactionSurvey
 from dataworkspace.apps.core.utils import (
     can_access_schema_table,
     table_data,
@@ -72,6 +73,21 @@ class SupportView(FormView):
         return HttpResponseRedirect(
             reverse('support-success', kwargs={'ticket_id': ticket_id})
         )
+
+
+class UserSatisfactionSurveyView(FormView):
+    form_class = UserSatisfactionSurveyForm
+    template_name = 'core/user-satisfaction-survey.html'
+
+    def form_valid(self, form):
+        cleaned = form.cleaned_data
+        UserSatisfactionSurvey.objects.create(
+            how_satisfied=cleaned['how_satisfied'],
+            trying_to_do=','.join(cleaned['trying_to_do']),
+            improve_service=cleaned['improve_service'],
+        )
+
+        return HttpResponseRedirect(f'{reverse("user-satisfaction-survey")}?success=1')
 
 
 def table_data_view(request, database, schema, table):

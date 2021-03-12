@@ -1,7 +1,7 @@
 {% with id=widget.attrs.id %}
 <div class="govuk-form-group {% if widget.errors %}govuk-form-group--error{% endif %}">
   <fieldset{% if id %} id="{{ id }}"{% endif %} class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--{{ widget.legend_size }}">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--{{ widget.label_size }}">
         <{{ widget.heading }} class="govuk-fieldset__heading">{{ widget.label }}</{{ widget.heading }}>
       </legend>
 

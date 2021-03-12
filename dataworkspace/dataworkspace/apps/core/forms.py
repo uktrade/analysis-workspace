@@ -1,6 +1,16 @@
 from django import forms
 from django.utils.safestring import mark_safe
 
+from dataworkspace.forms import (
+    GOVUKDesignSystemCheckboxesWidget,
+    GOVUKDesignSystemForm,
+    GOVUKDesignSystemMultipleChoiceField,
+    GOVUKDesignSystemRadioField,
+    GOVUKDesignSystemRadiosWidget,
+    GOVUKDesignSystemTextareaField,
+    GOVUKDesignSystemTextareaWidget,
+)
+
 
 class SupportForm(forms.Form):
     email = forms.EmailField(
@@ -29,4 +39,50 @@ class SupportForm(forms.Form):
 </ul>"""
             )
         ),
+    )
+
+
+HOW_SATISFIED_CHOICES = [
+    'Very satisfied',
+    'Satisfied',
+    'Neither satisfied or dissatisfied',
+    'Dissatisfied',
+    'Very dissatisfied',
+]
+
+TRYING_TO_DO_CHOICES = [
+    'Looking for data',
+    'Trying to access data',
+    'Analyse data',
+    'Use a tool',
+    'Create a data visualisation',
+    'Share data',
+    'Share a data visualisation',
+    'View a data visualisation',
+    'Other',
+    'Don’t know',
+]
+
+
+class UserSatisfactionSurveyForm(GOVUKDesignSystemForm):
+    how_satisfied = GOVUKDesignSystemRadioField(
+        required=True,
+        label='Overall how satisfied are you with the current Data Workspace?',
+        widget=GOVUKDesignSystemRadiosWidget(label_size='m'),
+        choices=tuple(zip(HOW_SATISFIED_CHOICES, HOW_SATISFIED_CHOICES)),
+    )
+
+    trying_to_do = GOVUKDesignSystemMultipleChoiceField(
+        required=False,
+        label='What were you trying to do today? (pick all that apply)',
+        widget=GOVUKDesignSystemCheckboxesWidget(label_size='m'),
+        choices=tuple(zip(TRYING_TO_DO_CHOICES, TRYING_TO_DO_CHOICES)),
+    )
+
+    improve_service = GOVUKDesignSystemTextareaField(
+        required=False,
+        label="""How could we improve the service? (Do not include any personal information,
+                 like your name or email address. We'll delete any personal information you
+                 do include""",
+        widget=GOVUKDesignSystemTextareaWidget(label_size='m'),
     )

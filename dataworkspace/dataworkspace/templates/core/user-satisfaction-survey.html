@@ -1,0 +1,39 @@
+{% extends '_main.html' %}
+
+{% load waffle_tags %}
+
+{% block page_title %}User satisfaction survey{% endblock page_title %}
+{% block breadcrumbs %}
+<div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+        <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" href="{% url 'root' %}">Home</a>
+        </li>
+        <li class="govuk-breadcrumbs__list-item">User satisfaction survey
+        </li>
+    </ol>
+</div>
+{% endblock %}
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">User satisfaction survey</h1>
+        {% if request.GET.success %}
+            <p class="govuk-body">
+                Your feedback has been received.
+            </p>
+            <a class="govuk-button" href="{% url 'root' %}">Go home</a>
+        {% else %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="govuk-fieldset">
+                    {{ form.how_satisfied }}
+                    {{ form.trying_to_do }}
+                    {{ form.improve_service }}
+                </fieldset>
+                <button type="submit" class="govuk-button">Submit</button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -77,6 +77,19 @@ class GOVUKDesignSystemRadiosWidget(
     option_template_name = "design_system/radio_option.html"
 
 
+class GOVUKDesignSystemCheckboxesWidget(
+    GOVUKDesignSystemWidgetMixin, forms.widgets.CheckboxSelectMultiple
+):
+    template_name = 'design_system/checkbox.html'
+    option_template_name = "design_system/checkbox_option.html"
+
+
+class GOVUKDesignSystemMultipleChoiceField(
+    GOVUKDesignSystemFieldMixin, forms.MultipleChoiceField
+):
+    widget = GOVUKDesignSystemCheckboxesWidget
+
+
 class GOVUKDesignSystemCharField(GOVUKDesignSystemFieldMixin, CharField):
     widget = GOVUKDesignSystemTextWidget
 

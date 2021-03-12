@@ -111,3 +111,9 @@ class DatabaseUser(TimeStampedModel):
     )
     username = models.CharField(max_length=256)
     deleted_date = models.DateTimeField(null=True, blank=True)
+
+
+class UserSatisfactionSurvey(TimeStampedModel):
+    how_satisfied = models.CharField(max_length=64)
+    trying_to_do = models.TextField(null=True, blank=True)
+    improve_service = models.TextField(null=True, blank=True)
